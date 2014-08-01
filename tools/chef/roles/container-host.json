@@ -1,0 +1,11 @@
+{
+  "name": "container-host",
+  "chef_type": "role",
+  "json_class": "Chef::Role",
+  "description": "A host that can run Docker containers",
+  "default_attributes": {
+  },
+  "run_list": [
+    "recipe[docker]"
+  ]
+}

@@ -19,7 +19,7 @@
       "locked_version": "2.0.8"
     },
     "apache2": {
-      "locked_version": "1.8.14"
+      "locked_version": "1.11.0"
     },
     "elasticsearch": {
       "locked_version": "0.3.7"
@@ -27,22 +27,28 @@
     "jetty": {
       "locked_version": "0.2.0",
       "git": "git://github.com/inviqa/chef-jetty.git",
-      "ref": "967f9ecb49c359b3b2b95ee80bab5f24ee18de7a"
+      "ref": "de58c6923d4c6387deabb7ace92ee051a408328d"
     },
     "solr": {
       "locked_version": "1.0.0",
       "git": "git://github.com/inviqa/chef-solr.git",
-      "ref": "d328b8de18f03ee7cf00f82b6f7a8ce0a3599b88"
+      "ref": "da9112f7b6f330e9d04467b186228f3f38f1cfe9"
     },
     "chef-varnish": {
-      "locked_version": "1.0.3",
+      "locked_version": "1.0.5",
       "git": "git://github.com/inviqa/chef-varnish.git",
-      "ref": "dcb5cfdf91006481f3e8b486975e9098c75f6713"
+      "ref": "b648abfb373d3cdac67f89d89f14944a265657a0"
     },
     "config-driven-helper": {
-      "locked_version": "1.0.3",
+      "locked_version": "1.1.0",
       "git": "git://github.com/inviqa/chef-config-driven-helper.git",
-      "ref": "5ffba6a0cc34ed0e9399f447ae81bd02ba641951"
+      "ref": "0f2276540315ecb6d6f71deedb5a6a52c620404a"
+    },
+    "docker": {
+      "locked_version": "0.22.0"
+    },
+    "docker-permissions": {
+      "path": "./site-cookbooks/docker-permissions"
     },
     "openssl": {
       "locked_version": "1.1.0"
@@ -51,19 +57,22 @@
       "locked_version": "1.4.4"
     },
     "xml": {
-      "locked_version": "1.2.2"
+      "locked_version": "1.2.6"
+    },
+    "chef-sugar": {
+      "locked_version": "2.0.0"
     },
     "yum-epel": {
-      "locked_version": "0.3.4"
+      "locked_version": "0.4.0"
     },
     "windows": {
-      "locked_version": "1.30.0"
+      "locked_version": "1.33.1"
     },
     "chef_handler": {
-      "locked_version": "1.1.5"
+      "locked_version": "1.1.6"
     },
     "iis": {
-      "locked_version": "2.0.2"
+      "locked_version": "2.1.2"
     },
     "ulimit": {
       "locked_version": "0.3.2"
@@ -72,7 +81,7 @@
       "locked_version": "1.5.10"
     },
     "apt": {
-      "locked_version": "2.3.8"
+      "locked_version": "2.4.0"
     },
     "bluepill": {
       "locked_version": "2.3.1"
@@ -83,29 +92,62 @@
     "ohai": {
       "locked_version": "1.1.12"
     },
+    "iptables": {
+      "locked_version": "0.13.2"
+    },
+    "logrotate": {
+      "locked_version": "1.6.0"
+    },
+    "pacman": {
+      "locked_version": "1.1.1"
+    },
+    "freebsd": {
+      "locked_version": "0.1.4"
+    },
     "java": {
-      "locked_version": "1.21.2"
+      "locked_version": "1.24.0"
     },
     "monit": {
       "locked_version": "0.7.1"
     },
     "ark": {
-      "locked_version": "0.6.0"
+      "locked_version": "0.9.0"
     },
-    "iptables": {
-      "locked_version": "0.12.0"
+    "7-zip": {
+      "locked_version": "1.0.2"
     },
     "database": {
-      "locked_version": "2.0.0"
+      "locked_version": "2.2.0"
     },
     "postgresql": {
-      "locked_version": "3.3.4"
+      "locked_version": "3.4.1"
     },
     "aws": {
-      "locked_version": "2.1.0"
+      "locked_version": "2.3.0"
     },
     "xfs": {
       "locked_version": "1.1.0"
+    },
+    "mysql-chef_gem": {
+      "locked_version": "0.0.2"
+    },
+    "git": {
+      "locked_version": "4.0.2"
+    },
+    "dmg": {
+      "locked_version": "2.2.0"
+    },
+    "golang": {
+      "locked_version": "1.4.0"
+    },
+    "lxc": {
+      "locked_version": "1.1.8"
+    },
+    "dpkg_autostart": {
+      "locked_version": "0.1.10"
+    },
+    "modules": {
+      "locked_version": "0.2.0"
     }
   }
 }
