@@ -10,9 +10,9 @@ Vagrant.require_plugin "vagrant-cachier"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-  # Box configuration
-  config.vm.box = 'CentOS-6.5-stack+nginx-0.1.2'
-  config.vm.box_url = 'http://invi.qa/1pBlHjM'
+  # Box configuration - Not required for Docker provider
+  # config.vm.box = 'CentOS-6.5-stack+nginx-0.1.2'
+  # config.vm.box_url = 'http://invi.qa/1pBlHjM'
 
   # Network configuration
   config.vm.network :private_network, ip: "{{vm_ip}}"
@@ -43,14 +43,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     opts
   )
 
-  # Virtualbox specific configuration
-  config.vm.provider :virtualbox do |vb|
-    #vb.gui = true
-    vb.customize [
-      "modifyvm", :id,
-      "--memory", "1024",
-      "--name", "{{name}}"
-    ]
+  # Docker!
+  # Build the Dockerfile in the current directory
+  config.vm.provider :docker do |d|
+    d.build_dir = "."
+
+    
+    # Set to false if you want local docker instances running
+    # For this to work, you need to be on linux.
+    # Also, please install both 
+    # docker: http://docker.io/
+    # knife-container: http://docs.getchef.com/containers.html
+    d.force_host_vm = true
   end
 
   config.vm.provision :chef_solo do |chef|
