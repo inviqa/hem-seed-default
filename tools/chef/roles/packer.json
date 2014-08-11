@@ -41,7 +41,7 @@
       "server_debian_password": "984C42CF342f7j6"
     }
   },
-  "runlist": [
+  "run_list": [
     "yum::ius",
     "yum::epel"
   ]
