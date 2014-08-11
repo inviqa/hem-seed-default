@@ -7,7 +7,7 @@
   ],
   "nginx": {
     "sites": {
-      "docker-based-dev-environment.dev": {
+      "{{hostname}}": {
         "docroot": "/vagrant/public",
         "php-fpm": {
           "listen": "tcp",

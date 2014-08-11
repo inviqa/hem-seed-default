@@ -6,9 +6,9 @@
   ],
   "mysql": {
     "users": {
-      "docker-db": {
-        "password": "docker-db",
-        "database_name": "docker-db"
+      "{{name}}": {
+        "password": "{{name}}",
+        "database_name": "{{name}}"
       }
     }
   }
