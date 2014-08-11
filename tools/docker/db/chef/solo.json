@@ -1,0 +1,15 @@
+{
+  "run_list": [
+    "role[packer]",
+    "role[db-container]",
+    "recipe[config-driven-helper::packages]"
+  ],
+  "mysql": {
+    "users": {
+      "docker-db": {
+        "password": "docker-db",
+        "database_name": "docker-db"
+      }
+    }
+  }
+}

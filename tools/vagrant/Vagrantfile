@@ -56,4 +56,22 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       # d.volumes = ["logs:/var/log/"]
     end
   end
+
+  config.vm.define "db" do |db|
+    db.vm.synced_folder(
+      "./logs",
+      "/var/log/"
+    )
+
+    db.vm.synced_folder(
+      "./data/mysql",
+      "/var/lib/mysql/"
+    )
+
+    db.vm.provider "docker" do |d|
+      d.build_dir = "../docker/db/"
+      d.name = "db"
+      d.ports = ["3306:3306"]
+    end
+  end
 end

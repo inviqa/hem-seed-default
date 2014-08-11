@@ -1,0 +1,22 @@
+{
+  "name": "db-mysql55-container",
+  "chef_type": "role",
+  "json_class": "Chef::Role",
+  "description": "MySQL 5.5 database in a container",
+  "default_attributes": {
+    "mysql": {
+      "bind_address": "0.0.0.0",
+      "server": {
+        "socket": "/var/lib/mysql-container/mysql.sock"
+      },
+      "connections": {
+        "default": {
+          "socket": "/var/lib/mysql-container/mysql.sock"
+        }
+      }
+    }
+  },
+  "run_list": [
+    "role[db]"
+  ]
+}
