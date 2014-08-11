@@ -1,0 +1,8 @@
+source "https://api.berkshelf.com"
+
+cookbook 'yum', '2.4.4'
+
+cookbook 'php'
+cookbook 'nginx', '2.0.8' # Latest to support yum 2.x cookbook
+cookbook 'config-driven-helper', :github => 'inviqa/chef-config-driven-helper'
+cookbook 'nginx-https', :path => './site-cookbooks/nginx-https'

@@ -41,6 +41,19 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
+  config.vm.define "web" do |web|
+    web.vm.hostname = "docker-web.dev"
+
+    web.vm.synced_folder(
+      "./logs",
+      "/var/log/"
+    )
+
+    web.vm.provider "docker" do |d|
+      d.build_dir = "../docker/web/"
+      d.name = "web"
+      d.ports = ["80:80"]
+      # d.volumes = ["logs:/var/log/"]
     end
   end
 end

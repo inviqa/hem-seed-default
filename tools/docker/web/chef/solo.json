@@ -1,0 +1,20 @@
+{
+  "run_list": [
+    "role[packer]",
+    "recipe[php]",
+    "role[web-nginx]",
+    "recipe[config-driven-helper::packages]"
+  ],
+  "nginx": {
+    "sites": {
+      "docker-based-dev-environment.dev": {
+        "docroot": "/vagrant/public",
+        "php-fpm": {
+          "listen": "tcp",
+          "host": "127.0.0.1",
+          "port": "9000"
+        }
+      }
+    }
+  }
+}
