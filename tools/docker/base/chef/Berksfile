@@ -1,0 +1,3 @@
+source "https://supermarket.getchef.com"
+
+cookbook 'yum', '2.4.4'
