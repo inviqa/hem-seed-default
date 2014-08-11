@@ -1,0 +1,7 @@
+source "https://supermarket.getchef.com"
+
+cookbook 'yum', '2.4.4'
+
+cookbook 'redisio'
+cookbook 'config-driven-helper', :github => 'inviqa/chef-config-driven-helper'
+cookbook 'redisio-container', :path => './site-cookbooks/redisio-container/'

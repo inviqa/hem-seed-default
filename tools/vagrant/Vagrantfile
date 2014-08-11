@@ -74,4 +74,22 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       d.ports = ["3306:3306"]
     end
   end
+
+  config.vm.define "redis" do |redis|
+    redis.vm.synced_folder(
+      "./logs",
+      "/var/log/"
+    )
+
+    redis.vm.synced_folder(
+      "./data/redis",
+      "/var/lib/redis"
+    )
+
+    redis.vm.provider "docker" do |d|
+      d.build_dir = "../docker/redis/"
+      d.name = "redis"
+      d.ports = ["6739:6739"]
+    end
+  end
 end
