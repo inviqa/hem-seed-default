@@ -7,11 +7,11 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Network configuration - never actually used for the docker containers but
   # specified to be the same as the docker host VM so hosts updater will work
-  config.vm.network :private_network, ip: "10.143.137.214"
+  config.vm.network :private_network, ip: "{{vm_ip}}"
   config.ssh.forward_agent = true
 
   # vagrant-hostsupdater settings
-  config.vm.hostname = "docker-based-dev-environment.dev"
+  config.vm.hostname = "{{hostname}}"
   # config.hostsupdater.aliases = []
 
   # vagrant-cachier settings
@@ -42,7 +42,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define "web" do |web|
-    web.vm.hostname = "docker-web.dev"
+    web.vm.hostname = "{{hostname}}"
 
     web.vm.synced_folder(
       "./logs",
@@ -53,7 +53,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       d.build_dir = "../docker/web/"
       d.name = "web"
       d.ports = ["80:80"]
-      # d.volumes = ["logs:/var/log/"]
     end
   end
 

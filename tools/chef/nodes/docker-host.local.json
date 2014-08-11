@@ -1,6 +1,0 @@
-{
-  "run_list": [
-    "role[container-host]",
-    "recipe[docker-permissions]"
-  ]
-}

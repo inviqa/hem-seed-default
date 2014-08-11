@@ -35,7 +35,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #  "/vagrant"
   #)
 
-  config.vm.network :private_network, ip: "10.143.137.214"
+  config.vm.network :private_network, ip: "{{vm_ip}}"
   # For web
   config.vm.network :forwarded_port, guest: 80, host: 80
   # For db

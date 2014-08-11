@@ -4,4 +4,3 @@ cookbook 'yum', '2.4.4'
 
 cookbook 'mysql', '~> 4.0.20'
 cookbook 'config-driven-helper', :github => 'inviqa/chef-config-driven-helper'
-# cookbook 'mysql-container', :path => './site-cookbooks/mysql-container'
