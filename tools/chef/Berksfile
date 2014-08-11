@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 #^syntax detection
+source 'https://supermarket.getchef.com'
 
 cookbook 'yum', '2.4.4'
 cookbook 'mysql'
@@ -13,6 +14,9 @@ cookbook 'jetty', :github => 'inviqa/chef-jetty'
 cookbook 'solr', :github => 'inviqa/chef-solr'
 cookbook 'chef-varnish', :github => 'inviqa/chef-varnish'
 cookbook 'config-driven-helper', :github => 'inviqa/chef-config-driven-helper'
-cookbook 'docker', '0.22.0' # Latest to support yum 2.x cookbook
 
-cookbook 'docker-permissions', :path => './site-cookbooks/docker-permissions'
+
+# cookbook 'docker', '0.22.0' # Latest to support yum 2.x cookbook
+# cookbook 'docker-permissions', :path => './site-cookbooks/docker-permissions'
+# cookbook 'runit', '1.4.0' # Latest to support yum 2.x cookbook
+# cookbook 'knife-container', :path => './site-cookbooks/knife-container'
