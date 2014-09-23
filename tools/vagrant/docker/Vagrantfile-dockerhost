@@ -1,0 +1,45 @@
+#!/usr/bin/env ruby
+# ^ Syntax hint
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "mitchellh/boot2docker"
+
+  config.vm.provider "virtualbox" do |v|
+    # On VirtualBox, we don't have guest additions or a functional vboxsf
+    # in TinyCore Linux, so tell Vagrant that so it can be smarter.
+    v.check_guest_additions = false
+    v.functional_vboxsf = false
+  end
+
+  ["vmware_fusion", "vmware_workstation"].each do |vmware|
+    config.vm.provider vmware do |v|
+      if v.respond_to?(:functional_hgfs=)
+        v.functional_hgfs = false
+      end
+    end
+  end
+
+  # b2d doesn't support NFS
+  config.nfs.functional = false
+
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 4096
+    v.cpus = 2
+  end
+
+  #config.vm.synced_folder(
+  #  "../../../",
+  #  "/vagrant"
+  #)
+
+  config.vm.network :private_network, ip: "{{vm_ip}}"
+  # For web
+  config.vm.network :forwarded_port, guest: 80, host: 80
+  # For db
+  config.vm.network :forwarded_port, guest: 3306, host: 3306
+  # For redis
+  config.vm.network :forwarded_port, guest: 6379, host: 6379
+end

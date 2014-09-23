@@ -1,0 +1,14 @@
+{
+  "name": "web-nginx-container",
+  "chef_type": "role",
+  "json_class": "Chef::Role",
+  "description": "Nginx HTTP server role for a container",
+  "default_attributes": {
+    "nginx": {
+       "daemon_disable": true
+    }
+  },
+  "run_list": [
+    "role[web-nginx]"
+  ]
+}

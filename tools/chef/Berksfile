@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 #^syntax detection
+source 'https://supermarket.getchef.com'
 
 cookbook 'yum', '2.4.4'
 cookbook 'mysql'

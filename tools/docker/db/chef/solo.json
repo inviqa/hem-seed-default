@@ -1,0 +1,15 @@
+{
+  "run_list": [
+    "role[packer]",
+    "role[db-container]",
+    "recipe[config-driven-helper::packages]"
+  ],
+  "mysql": {
+    "users": {
+      "{{name}}": {
+        "password": "{{name}}",
+        "database_name": "{{name}}"
+      }
+    }
+  }
+}
