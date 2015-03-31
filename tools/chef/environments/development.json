@@ -24,7 +24,12 @@
       }
     },
 
-    "packages": [ "git" ]
+    "packages": [ "git" ],
+
+    "rbenv": {
+      "rubies": ["1.9.3-p551"],
+      "global": "1.9.3-p551"
+    }
   },
 
   "override_attributes": {

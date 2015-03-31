@@ -14,6 +14,8 @@ cookbook 'nginx', '2.4.2'
 cookbook 'apache2', '~> 1.8.14'
 cookbook 'elasticsearch', '~> 0.3.7'
 cookbook 'data-bag-merge', '~> 0.1.3'
+cookbook 'rbenv', :github => 'fnichol/chef-rbenv', :tag => 'v0.7.2'
+cookbook 'ruby_build', '~> 0.8.0'
 
 cookbook 'jetty', :github => 'inviqa/chef-jetty', :tag => '0.2'
 cookbook 'solr', :github => 'inviqa/chef-solr', :tag => '1.0.1'
