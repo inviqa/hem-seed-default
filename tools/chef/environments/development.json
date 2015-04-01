@@ -21,7 +21,8 @@
           "password": "{{name}}",
           "database_name": "{{name}}"
         }
-      }
+      },
+      "bind_address": "127.0.0.1"
     },
 
     "packages": [ "git" ]
