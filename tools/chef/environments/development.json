@@ -24,7 +24,20 @@
       }
     },
 
-    "packages": [ "git" ]
+    "packages": [ "git" ],
+
+    "rbenv": {
+      "rubies": ["1.9.3-p551"],
+      "global": "1.9.3-p551"
+    },
+
+    "mailcatcher": {
+      "bin": "/usr/local/rbenv/shims/mailcatcher"
+    },
+
+    "iptables-standard": {
+      "allowed_incoming_ports": {"mailcatcher": "1080"}
+    }
   },
 
   "override_attributes": {
