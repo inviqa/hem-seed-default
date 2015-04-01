@@ -8,6 +8,9 @@
     "role[web-nginx]",
     "recipe[ruby_build]",
     "recipe[rbenv::system]",
-    "recipe[config-driven-helper::packages]"
+    "recipe[config-driven-helper::packages]",
+    "recipe[config-driven-helper::iptables-standard]",
+    "recipe[mailcatcher]",
+    "recipe[mailcatcher::php]"
   ]
 }
