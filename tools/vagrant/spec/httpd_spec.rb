@@ -14,9 +14,9 @@ describe port(80) do
   it { should be_listening }
 end
 
-describe file('/etc/nginx/sites-enabled/{{hostname}}') do
+describe file('/etc/nginx/sites-enabled/{{name}}') do
   it { should be_file }
-  its(:content) { should match /server_name .*{{hostname}}.*/ }
+  its(:content) { should match /server_name .*{{name}}.*/ }
 end
 
 describe "HTTP OK" do
