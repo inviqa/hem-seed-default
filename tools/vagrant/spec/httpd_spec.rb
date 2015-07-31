@@ -21,6 +21,6 @@ end
 
 describe "HTTP OK" do
   it do
-    Net::HTTP.get_response(URI.parse('http://{{name}}')).should be_a Net::HTTPOK
+    Net::HTTP.get_response(URI.parse('http://{{hostname}}')).should be_a Net::HTTPOK
   end
 end
