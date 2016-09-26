@@ -3,6 +3,14 @@
   "chef_type": "role",
   "json_class": "Chef::Role",
   "description": "PHP5.6 role",
+  "default_attributes": {
+    "php": {
+      "replace_packages": [
+        "php55w-common"
+      ],
+      "replace_package_target": "php56w-common"
+    }
+  },
   "override_attributes": {
     "php-fpm": {
       "package_name": "php56w-fpm"
@@ -30,7 +38,7 @@
     }
   },
   "run_list": [
-    "yum-webtatic",
-    "php"
+    "role[php-upgrade]",
+    "recipe[php]"
   ]
 }
