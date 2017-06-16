@@ -2,6 +2,7 @@
 .bundle
 build/*
 tools/chef/cookbooks/*
+tools/chef/site-cookbooks/**/cookbooks/*
 tools/chef/tmp/*
 tools/assets/*
 bin/*
