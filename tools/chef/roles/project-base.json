@@ -9,11 +9,15 @@
     "recipe[iptables-patterns::fail2ban]",
     "recipe[iptables-patterns::frontend_permissive_ports]",
     "recipe[ntp]",
-    "recipe[system::timezone]"
+    "recipe[system::timezone]",
+    "recipe[config-driven-helper::packages-additional]"
   ],
   "default_attributes": {
     "system": {
       "timezone": "UTC"
+    },
+    "packages-additional": {
+      "yum": "upgrade"
     }
   }
 }
