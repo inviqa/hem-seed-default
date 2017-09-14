@@ -12,7 +12,12 @@ services:
       XDEBUG_REMOTE_ENABLED: 'false'
       TIDEWAYS_ENABLED: 'true'
       DEVELOPMENT_MODE: 'true'
-      RUN_BUILD: # get from host env
+    volumes:
+      - ./tools/assets:/app/tools/assets
+
+  setup:
+    environment:
+      RUN_BUILD: 'true'
     volumes:
       - ./tools/assets:/app/tools/assets
 

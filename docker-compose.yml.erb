@@ -3,7 +3,7 @@ services:
   web:
     build:
       context: .
-      args:
+      args: &WEB_BUILD_ARGS
         ASSETS_S3_BUCKET: '<%= config.asset_bucket %>'
         DEVELOPMENT_MODE: 'true'
         RUN_BUILD: 'false'
@@ -14,7 +14,7 @@ services:
       - tideways
     env_file:
       - ./docker.env
-    environment:
+    environment: &WEB_ENV_VARS
       ASSETS_S3_BUCKET: '<%= config.asset_bucket %>'
       ASSETS_ENV: development
       ASSETS_CLEANUP: 'false'
@@ -26,7 +26,7 @@ services:
       SENDMAIL_RELAY_PORT: 1025
       XDEBUG_REMOTE_ENABLED: 'false'
       TIDEWAYS_ENABLED: 'true'
-      RUN_BUILD: # get from host env
+      RUN_BUILD: 'false'
       WEB_DIRECTORY: public
       AUTH_HTTP_HEALTHCHECK_LOCATION: '/status/healthcheck'
     healthcheck:
@@ -40,6 +40,20 @@ services:
     # ports:
     #  - '80:80'
     #  - '443:443'
+
+  setup:
+    build:
+      context: .
+      args:
+        <<: *WEB_BUILD_ARGS
+    depends_on:
+      - web
+    env_file:
+      - ./docker.env
+    environment:
+      <<: *WEB_ENV_VARS
+      RUN_BUILD: 'true'
+    command: container start
 
   mysql:
     image: quay.io/continuouspipe/mysql5.7:stable
