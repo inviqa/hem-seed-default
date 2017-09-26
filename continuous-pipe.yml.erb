@@ -12,6 +12,9 @@ variables:
   ASSETS_S3_BUCKET: '<%= config.asset_bucket %>'
   ASSETS_ENV: ''
   DEVELOPMENT_MODE: 'false'
+  COMMIT_SHA:
+    name: COMMIT_SHA
+    expression: code_reference.sha
 
 pipelines:
   - name: Production
@@ -54,6 +57,7 @@ tasks:
       services:
         web:
           image: quay.io/organisation/<%= config.name %>
+          tag: ${COMMIT_SHA}
 
   infrastructure:
     deploy:
@@ -183,6 +187,9 @@ tasks:
           endpoints: *WEB_ENDPOINTS
 
           specification:
+            source:
+              image: quay.io/organisation/<%= config.name %>
+              tag: ${COMMIT_SHA}
             environment_variables: &WEB_ENV_VARS
               AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID?:}
               AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY?:}
