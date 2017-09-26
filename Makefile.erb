@@ -139,7 +139,7 @@ reset: destroy build start
 .PHONY: ip
 ip:
 ifeq ($(OS),linux)
-	@docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $$($(DOCKER) ps -q proxy)
+	@docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $$($(DOCKER) ps -q web)
 endif
 ifneq ($(OS),linux) # Assume docker for mac|windows otherwise
 	@echo 127.0.0.1
