@@ -7,6 +7,7 @@ services:
         ASSETS_S3_BUCKET: '<%= config.asset_bucket %>'
         DEVELOPMENT_MODE: 'true'
         RUN_BUILD: 'false'
+    image: quay.io/organisation/<%= config.name %>:dev
     depends_on:
       - mysql
       - sshforward
@@ -42,10 +43,7 @@ services:
     #  - '443:443'
 
   setup:
-    build:
-      context: .
-      args:
-        <<: *WEB_BUILD_ARGS
+    image: quay.io/organisation/<%= config.name %>:dev
     depends_on:
       - web
     env_file:
