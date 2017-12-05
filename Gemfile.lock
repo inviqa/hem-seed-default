@@ -16,15 +16,6 @@ GIT
       rake (>= 10.0, <= 13)
 
 GIT
-  remote: git@github.com:inviqa/inviqa-rake-tasks-magento2.git
-  revision: 61d39b9d3729b34c8ed6238e13cfd331bde09df0
-  specs:
-    rake-tasks-magento2 (0.1.0)
-      rake (>= 10.0, <= 13)
-      rake-tasks-docker
-      slop (~> 4.6.0)
-
-GIT
   remote: git@github.com:inviqa/inviqa-rake-tasks-mysql.git
   revision: b5b2a9eb1931d80972817f3337b5c3560ddd0869
   specs:
@@ -39,15 +30,6 @@ GIT
   revision: 29ae943f35b947056fc52ec5c23691aa7f745b07
   specs:
     rake-tasks-php (0.1.0)
-      rake (>= 10.0, <= 13)
-      rake-tasks-docker
-      slop (~> 4.6.0)
-
-GIT
-  remote: git@github.com:inviqa/inviqa-rake-tasks-varnish.git
-  revision: b8c6ab035e36ea6112f0a23091adfd9caf3cb0e8
-  specs:
-    rake-tasks-varnish (0.1.0)
       rake (>= 10.0, <= 13)
       rake-tasks-docker
       slop (~> 4.6.0)
@@ -349,10 +331,8 @@ DEPENDENCIES
   railsless-deploy (~> 1.1)
   rake-tasks-docker!
   rake-tasks-help!
-  rake-tasks-magento2!
   rake-tasks-mysql!
   rake-tasks-php!
-  rake-tasks-varnish!
   rubocop (~> 0.49.0)
   rubygems-bundler (~> 1.4.4)
   serverspec (~> 2.31)

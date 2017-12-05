@@ -26,10 +26,6 @@ group :deploy do
   gem 'railsless-deploy', '~> 1.1'
 end
 
-group :magento2 do
-  gem 'rake-tasks-magento2', git: 'git@github.com:inviqa/inviqa-rake-tasks-magento2.git'
-end
-
 group :mysql do
   gem 'rake-tasks-mysql', git: 'git@github.com:inviqa/inviqa-rake-tasks-mysql.git'
 end
@@ -45,10 +41,6 @@ end
 group :test do
   # CI / testing
   gem 'serverspec', '~> 2.31'
-end
-
-group :varnish do
-  gem 'rake-tasks-varnish', git: 'git@github.com:inviqa/inviqa-rake-tasks-varnish.git'
 end
 
 # Execution helpers
