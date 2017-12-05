@@ -1,1 +1,6 @@
 require 'rake-tasks-docker/rake_task'
+require 'rake-tasks-magento2/rake_task'
+require 'rake-tasks-mysql/rake_task'
+require 'rake-tasks-php/rake_task'
+require 'rake-tasks-help/rake_task'
+require 'rake-tasks-varnish/rake_task'

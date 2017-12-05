@@ -45,9 +45,7 @@ During setup you will be asked for Github and AWS credentials, please use the de
 
 ```bash
 make setup
-make start
-echo "$(make ip) <%= config.hostname %>" | sudo tee -a /etc/hosts
-docker-compose logs -f web setup
+make setup-logs
 ```
 
 Once the environment is running, you should be able to browse to the site at
@@ -60,21 +58,27 @@ Usage:
   make <target> [--] [<command>...] [options]
 
 Targets:
-  help            show this help message.
-  build           create the application docker image.
-  setup           initial project setup and configuration.
-  composer        alias to run composer within the application container.
-  start           start the application and associated containers.
-  stop            stop the application and associated containers.
-  restart         stop and start the application and associated containers.
-  destroy         remove application containers, network and volumes.
-  reset           alias to destroy, build and start the application.
-  ip              retrieve IP of web container
-  test            run tests
-  test-phpspec    run phpspec examples
-  db-console      open mysql console in the database container
-  db-dump         create db dump
-  db-restore      restores the database to it's initial development state
+  help                show this help message.
+  build               create the application docker image.
+  setup               initial project setup and configuration.
+  composer            alias to run composer within the application container.
+  composer-install    alias to run composer install within the application container.
+  start               start the application and associated containers.
+  stop                stop the application and associated containers.
+  restart             stop and start the application and associated containers.
+  destroy             remove application containers, network and volumes.
+  reset               alias to destroy, build and start the application.
+  ip                  retrieve IP of web container
+  test                run tests
+  test-behat          run behat scenarios
+  test-phpspec        run phpspec examples
+  bash                open bash in the given container (default is web)
+  varnishlog          show varnish logs
+  logs                show container logs
+  setup-logs          show setup container logs
+  db-console          open mysql console in the database container
+  db-dump             create db dump
+  db-restore          restores the database to it's initial development state
 ```
 
 ### Customising
@@ -87,12 +91,25 @@ Targets:
 
 ### Xdebug setup
 
-1. Set `XDEBUG_REMOTE_ENABLED` to `true` and `TIDEWAYS_ENABLED` to `false` in `docker-compose.override.yml`
-2. Restart your environment: `make restart`
-3. Run `ssh -p 2222 forward@localhost -N -R 9000:localhost:9000` in another tab
-4. In PHPStorm, configure a web server with path mapping /app/ to the project directory.
-5. In PHPStorm, click the listen for connections button in the top right
-6. In your browser, use an extension to set the right cookies to trigger Xdebug.
+XDebug is enabled within the container by default with the settings specified in `docker-compose.override.yml`.
+
+By default xdebug will attempt to connect to `10.254.254.254` on port `9000`. To facilitate this you can alias `127.0.0.1` to this address using the below instructions.
+
+#### DockerForMac
+
+```bash
+sudo ifconfig lo0 alias 10.254.254.254
+```
+
+#### Ubuntu
+
+```bash
+sudo ifconfig lo:1 10.254.254.254 up
+```
+
+You should now be able to use XDebug by setting PHPStorm to listen for connections.
+
+**NOTE:** The path mapping should be `/app/` to your project directory.
 
 ## ContinuousPipe remote environment
 

@@ -1,9 +1,56 @@
 GIT
-  remote: https://github.com/inviqa/inviqa-rake-tasks-docker.git
-  revision: e7cdbfe9525c852b1b0d22924e09810f10a1c617
+  remote: git@github.com:inviqa/inviqa-rake-tasks-docker.git
+  revision: 10102c8cd7a2f8d3ab0dee62406227af6c4435ef
+  ref: feature/more-tasks-to-avoid-make-tasks
   specs:
-    rake-tasks-docker (0.1.0)
-      rake (>= 10.0, <= 12)
+    rake-tasks-docker (0.2.0)
+      highline (~> 1.7.8)
+      rake (>= 10.0, <= 13)
+      slop (~> 4.6.0)
+
+GIT
+  remote: git@github.com:inviqa/inviqa-rake-tasks-help.git
+  revision: 03655e077b4deb646000a383195c5b59d032a939
+  specs:
+    rake-tasks-help (1.0.0)
+      rake (>= 10.0, <= 13)
+
+GIT
+  remote: git@github.com:inviqa/inviqa-rake-tasks-magento2.git
+  revision: 61d39b9d3729b34c8ed6238e13cfd331bde09df0
+  specs:
+    rake-tasks-magento2 (0.1.0)
+      rake (>= 10.0, <= 13)
+      rake-tasks-docker
+      slop (~> 4.6.0)
+
+GIT
+  remote: git@github.com:inviqa/inviqa-rake-tasks-mysql.git
+  revision: b5b2a9eb1931d80972817f3337b5c3560ddd0869
+  specs:
+    rake-tasks-mysql (0.1.0)
+      highline (~> 1.7.8)
+      rake (>= 10.0, <= 13)
+      rake-tasks-docker
+      slop (~> 4.6.0)
+
+GIT
+  remote: git@github.com:inviqa/inviqa-rake-tasks-php.git
+  revision: 29ae943f35b947056fc52ec5c23691aa7f745b07
+  specs:
+    rake-tasks-php (0.1.0)
+      rake (>= 10.0, <= 13)
+      rake-tasks-docker
+      slop (~> 4.6.0)
+
+GIT
+  remote: git@github.com:inviqa/inviqa-rake-tasks-varnish.git
+  revision: b8c6ab035e36ea6112f0a23091adfd9caf3cb0e8
+  specs:
+    rake-tasks-varnish (0.1.0)
+      rake (>= 10.0, <= 13)
+      rake-tasks-docker
+      slop (~> 4.6.0)
 
 GEM
   remote: https://rubygems.org/
@@ -255,6 +302,7 @@ GEM
       rspec-its
       specinfra (~> 2.53)
     sfl (2.2)
+    slop (4.6.1)
     solve (3.1.1)
       molinillo (>= 0.5)
       semverse (>= 1.1, < 3.0)
@@ -300,6 +348,11 @@ DEPENDENCIES
   knife-solo_data_bag (~> 1.1.0)
   railsless-deploy (~> 1.1)
   rake-tasks-docker!
+  rake-tasks-help!
+  rake-tasks-magento2!
+  rake-tasks-mysql!
+  rake-tasks-php!
+  rake-tasks-varnish!
   rubocop (~> 0.49.0)
   rubygems-bundler (~> 1.4.4)
   serverspec (~> 2.31)
