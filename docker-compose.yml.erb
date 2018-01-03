@@ -3,7 +3,7 @@ services:
   web:
     build:
       context: .
-      args: &WEB_BUILD_ARGS
+      args:
         ASSETS_S3_BUCKET: '<%= config.asset_bucket %>'
         DEVELOPMENT_MODE: 'true'
         RUN_BUILD: 'false'
