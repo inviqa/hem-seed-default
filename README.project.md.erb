@@ -34,10 +34,11 @@ git clone <%= config.git_url %>
 
 ##### MacOS
 
-Set up docker-sync to improve volume performance:
-```bash
-gem install docker-sync
-```
+By default we use docker for mac's delegated volume.
+There is the option of using `docker-sync` by specifying `RAKE_USE_DOCKER_SYNC=true` in your shell's environment variables.
+
+##### Linux
+Install Ruby 2.2.x if you don't have it installed and ensure that bundler is installed (`gem install bundler`).
 
 #### Setup
 
