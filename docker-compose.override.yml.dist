@@ -19,8 +19,6 @@ services:
       - ./tools/assets:/app/tools/assets
 
   setup:
-    environment:
-      RUN_BUILD: 'true'
     volumes:
       - ./tools/assets:/app/tools/assets
 

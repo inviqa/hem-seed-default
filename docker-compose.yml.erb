@@ -54,7 +54,7 @@ services:
       - ./docker.env
     environment:
       <<: *WEB_ENV_VARS
-      RUN_BUILD: 'true'
+      RUN_BUILD: # get from host env
     command: container start
 
   mysql:
