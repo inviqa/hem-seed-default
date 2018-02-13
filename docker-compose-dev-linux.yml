@@ -1,0 +1,11 @@
+version: '2.3'
+services:
+  web: &WEB
+    volumes:
+      - .:/app
+    environment:
+      APP_USER_LOCAL: 'true'
+      APP_USER: 'build'
+      APP_GROUP: 'build'
+
+  setup: *WEB

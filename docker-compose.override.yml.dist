@@ -10,9 +10,15 @@ services:
       - '443:443'
     environment:
       XDEBUG_REMOTE_ENABLED: 'false'
-      TIDEWAYS_ENABLED: 'true'
+      XDEBUG_REMOTE_HOST: '10.254.254.254'
+      XDEBUG_REMOTE_PORT: '9000'
+      XDEBUG_REMOTE_AUTOSTART: 'true'
+      TIDEWAYS_ENABLED: 'false'
       DEVELOPMENT_MODE: 'true'
-      RUN_BUILD: # get from host env
+    volumes:
+      - ./tools/assets:/app/tools/assets
+
+  setup:
     volumes:
       - ./tools/assets:/app/tools/assets
 

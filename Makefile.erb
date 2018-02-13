@@ -1,0 +1,205 @@
+SHELL := /bin/bash
+
+# Some useful variables...
+
+ERROR   := "   \033[41;1m error \033[0m "
+INFO    := "    \033[34;1m info \033[0m "
+OK      := "      \033[32;1m ok \033[0m "
+WARNING := " \033[33;1m warning \033[0m "
+
+# Task: help | show this help message.
+# {
+.PHONY: help
+help:
+	@echo
+	@echo -e '\033[33mUsage:\033[0m'
+	@echo '  make <target> [--] [<command>...] [options]'
+	@echo
+	@echo -e '\033[33mTargets:\033[0m'
+	@egrep '^# Task: ([a-z-]+) \| (.+)$$' Makefile | awk -F '[:|]' '{print " \033[32m"$$2"\033[0m" "|" $$3}' | column -t -s '|'
+	@echo
+# }
+
+
+# Task: build | create the application docker image.
+# {
+.PHONY: build
+build:
+	@bash -c 'bundle exec rake docker:build'
+# }
+
+
+# Task: setup | initial project setup and configuration.
+# {
+.PHONY: setup
+setup:
+	@bash -c 'bundle install'
+	@bash -c 'bundle exec rake docker:setup'
+	@bash -c 'bundle exec rake docker:start'
+	@bash -c 'bundle exec rake docker:hostsfile -- --services=web --hostname=<%= config.hostname %>'
+
+docker-compose.override.yml:
+	@bash -c 'bundle exec rake docker-compose.override.yml'
+
+docker.env:
+	@bash -c 'bundle exec rake docker.env'
+# }
+
+# Task: composer | alias to run composer within the application container.
+# {
+ifeq (composer,$(firstword $(MAKECMDGOALS)))
+  RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+  $(eval $(RUN_ARGS):;@:)
+endif
+
+.PHONY: composer
+composer:
+	@bash -c 'bundle exec rake php:composer -- "$(RUN_ARGS)"'
+# }
+
+# Task: composer-install | alias to run composer install within the application container.
+# {
+.PHONY: composer-install
+composer-install:
+	@bash -c 'bundle exec rake php:composer -- install'
+# }
+
+# Task: start | start the application and associated containers.
+# {
+.PHONY: start
+start:
+	@bash -c 'bundle exec rake docker:start'
+# }
+
+
+# Task: stop | stop the application and associated containers.
+# {
+.PHONY: stop
+stop:
+	@bash -c 'bundle exec rake docker:stop'
+# }
+
+# Task: restart | stop and start the application and associated containers.
+# {
+.PHONY: restart
+restart:
+	@bash -c 'bundle exec rake docker:restart'
+# }
+
+
+# Task: destroy | remove application containers, network and volumes.
+# {
+.PHONY: destroy
+destroy:
+	@bash -c 'bundle exec rake docker:destroy'
+# }
+
+
+# Task: reset | alias to destroy, build and start the application.
+# {
+.PHONY: reset
+reset:
+	@bash -c 'bundle exec rake docker:reset'
+# }
+
+
+# Task: ip | retrieve IP of web container
+# {
+.PHONY: ip
+ip:
+	@bash -c 'bundle exec rake docker:ip -- --services=web'
+# }
+
+
+# Task: test | run tests
+# {
+.PHONY: test
+test: test-phpspec test-behat
+# }
+
+# Task: test-behat | run behat scenarios
+# {
+.PHONY: test-behat
+test-behat:
+	@echo -e ${INFO} 'running behat scenarios...'
+	@bash -c 'bundle exec rake php:behat'
+# }
+
+# Task: test-phpspec | run phpspec examples
+# {
+.PHONY: test-phpspec
+test-phpspec:
+	@echo -e ${INFO} 'running phpspec examples...'
+	@bash -c 'bundle exec rake php:phpspec'
+# }
+
+# Task: bash | open bash in the given container (default is web)
+# {
+ifeq (bash,$(firstword $(MAKECMDGOALS)))
+  RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+  $(eval $(RUN_ARGS):;@:)
+endif
+
+.PHONY: bash
+bash:
+	@echo -e ${INFO} 'opening bash...'
+	$(eval CONTAINER_NAME=$(if $(RUN_ARGS),$(RUN_ARGS),web))
+	@bash -c 'bundle exec rake docker:bash -- --user="build" --services="$(CONTAINER_NAME)"'
+# }
+
+
+
+# Task: varnishlog | show varnish logs
+# {
+.PHONY: varnishlog
+varnishlog:
+	@bash -c 'bundle exec rake varnish:log'
+# }
+
+# Task: logs | show container logs
+# {
+.PHONY: logs
+logs:
+	@bash -c 'bundle rake exec docker:logs'
+# }
+
+# Task: setup-logs | show setup container logs
+# {
+.PHONY: setup-logs
+setup-logs:
+	@bash -c 'bundle exec rake docker:logs -- --services=setup'
+# }
+
+# Task: db-console | open mysql console in the database container
+# {
+.PHONY: db-console
+db-console:
+	@echo -e ${INFO} 'opening mysql console...'
+	@bash -c 'bundle exec rake mysql:console'
+# }
+
+# Task: db-dump | create db dump
+# {
+ifeq (db-dump,$(firstword $(MAKECMDGOALS)))
+  RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+  $(eval $(RUN_ARGS):;@:)
+endif
+
+.PHONY: db-dump
+db-dump:
+	@echo -e ${INFO} 'creating db dump...'
+	$(eval DUMPFILE_NAME=$(if $(RUN_ARGS),$(RUN_ARGS),<%= config.name %>db))
+	$(eval DUMPFILE_NAME="$(DUMPFILE_NAME).sql")
+	@bash -c 'bundle exec rake mysql:dump -- --filename=$(DUMPFILE_NAME)'
+	@echo -e ${INFO} 'db dump saved as' $(DUMPFILE_NAME)
+# }
+
+# Task: db-restore | restores the database to it's initial development state
+# {
+.PHONY: db-restore
+db-restore:
+	@echo -e ${WARNING} 'you are about to restore the database, you will lose data...'; \
+	sleep 3; \
+	@bash -c 'bundle exec rake docker:command -- --services=web --command="FORCE_DATABASE_DROP=true container assets_all"'
+	@echo -e ${INFO} 'done'
+# }

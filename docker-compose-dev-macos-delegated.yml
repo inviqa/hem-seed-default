@@ -1,0 +1,10 @@
+version: '2.3'
+services:
+  web: &WEB
+    environment:
+      APP_USER: 'build'
+      APP_GROUP: 'build'
+    volumes:
+      - .:/app:delegated
+
+  setup: *WEB

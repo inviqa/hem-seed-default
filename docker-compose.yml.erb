@@ -7,6 +7,7 @@ services:
         ASSETS_S3_BUCKET: '<%= config.asset_bucket %>'
         DEVELOPMENT_MODE: 'true'
         RUN_BUILD: 'false'
+    image: quay.io/organisation/<%= config.name %>:dev
     depends_on:
       - mysql
       - sshforward
@@ -14,7 +15,7 @@ services:
       - tideways
     env_file:
       - ./docker.env
-    environment:
+    environment: &WEB_ENV_VARS
       ASSETS_S3_BUCKET: '<%= config.asset_bucket %>'
       ASSETS_ENV: development
       ASSETS_CLEANUP: 'false'
@@ -26,7 +27,7 @@ services:
       SENDMAIL_RELAY_PORT: 1025
       XDEBUG_REMOTE_ENABLED: 'false'
       TIDEWAYS_ENABLED: 'true'
-      RUN_BUILD: # get from host env
+      RUN_BUILD: 'false'
       WEB_DIRECTORY: public
       AUTH_HTTP_HEALTHCHECK_LOCATION: '/status/healthcheck'
     healthcheck:
@@ -36,10 +37,25 @@ services:
     expose:
       - 80
       - 443
+    networks:
+      default:
+        aliases:
+          - "<%= config.hostname %>"
     # Please define ports in your docker-compose.override.yml
     # ports:
     #  - '80:80'
     #  - '443:443'
+
+  setup:
+    image: quay.io/organisation/<%= config.name %>:dev
+    depends_on:
+      - web
+    env_file:
+      - ./docker.env
+    environment:
+      <<: *WEB_ENV_VARS
+      RUN_BUILD: # get from host env
+    command: container start
 
   mysql:
     image: quay.io/continuouspipe/mysql5.7:stable

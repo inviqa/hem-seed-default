@@ -1,28 +1,42 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
 group :docker do
-  gem 'rake-tasks-docker', :git => 'https://github.com/inviqa/inviqa-rake-tasks-docker.git'
+  gem 'rake-tasks-docker', git: 'git@github.com:inviqa/inviqa-rake-tasks-docker.git',
+                           ref: 'feature/more-tasks-to-avoid-make-tasks'
+  gem 'rake-tasks-docker-sync', git: 'git@github.com:inviqa/inviqa-rake-tasks-docker-sync.git'
 end
 
 group :chef do
-  gem "berkshelf", "~> 5.6"
-  gem "chef", "~> 12.10.24"
-  gem "knife-solo", "~> 0.6.0"
-  gem "knife-solo_data_bag", "~> 1.1.0"
+  gem 'berkshelf', '~> 5.6'
+  gem 'chef', '~> 12.10.24'
+  gem 'knife-solo', '~> 0.6.0'
+  gem 'knife-solo_data_bag', '~> 1.1.0'
 end
 
 group :chef_development do
-  gem "foodcritic", "~> 6.2"
-  gem "chefspec", "~> 4.6"
-  gem "test-kitchen", "~> 1.8"
-  gem "kitchen-vagrant", "~> 0.20.0"
-  gem "kitchen-docker", "~> 2.3.0"
-  gem "rubocop", "~> 0.49.0"
+  gem 'chefspec', '~> 4.6'
+  gem 'foodcritic', '~> 6.2'
+  gem 'kitchen-docker', '~> 2.3.0'
+  gem 'kitchen-vagrant', '~> 0.20.0'
+  gem 'rubocop', '~> 0.49.0'
+  gem 'test-kitchen', '~> 1.8'
 end
 
 group :deploy do
-  gem "capistrano", "~> 2.15"
-  gem "railsless-deploy", "~> 1.1"
+  gem 'capistrano', '~> 2.15'
+  gem 'railsless-deploy', '~> 1.1'
+end
+
+group :mysql do
+  gem 'rake-tasks-mysql', git: 'git@github.com:inviqa/inviqa-rake-tasks-mysql.git'
+end
+
+group :php do
+  gem 'rake-tasks-php', git: 'git@github.com:inviqa/inviqa-rake-tasks-php.git'
+end
+
+group :rake do
+  gem 'rake-tasks-help', git: 'git@github.com:inviqa/inviqa-rake-tasks-help.git'
 end
 
 group :test do
@@ -31,6 +45,4 @@ group :test do
 end
 
 # Execution helpers
-if Bundler.settings[:path].nil?
-  gem 'rubygems-bundler', '~> 1.4.4'
-end
+gem 'rubygems-bundler', '~> 1.4.4' if Bundler.settings[:path].nil?
