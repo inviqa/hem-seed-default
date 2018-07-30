@@ -103,6 +103,12 @@ Targets:
 5. In PHPStorm, click the listen for connections button in the top right
 6. In your browser, use an extension to set the right cookies to trigger Xdebug.
 
+### Testing emails
+
+Mailcatcher is installed and will catch any email sent by Magento. It is accessible locally at [http://tcc.test:1080/](http://tcc.test:1080/).
+
+Testing for other environments will need to be configured using a tool such as [chef-mailcatcher-ng](https://github.com/inviqa/chef-mailcatcher-ng).
+
 ## ContinuousPipe remote environment
 
 1. Request access from the team in #<%= config.name %> to see [the ContinuousPipe Project](https://ui.continuouspipe.io/project/<%= config.name %>/flows)
