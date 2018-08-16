@@ -1,0 +1,134 @@
+String main_branch = 'master'
+String cron_string = BRANCH_NAME == main_branch ? 'H H * * *' : ''
+
+def GetWorkspace(suffix = '')
+{
+    return 'workspace/' + env.BUILD_TAG.replace('%', '-') + suffix;
+}
+
+pipeline {
+    agent none
+
+    triggers {
+        cron cron_string
+    }
+
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
+        disableConcurrentBuilds()
+        timeout(time: 1, unit: 'HOURS')
+        timestamps()
+    }
+
+    environment {
+        COMPOSE_HTTP_TIMEOUT = 600
+    }
+
+    stages {
+        stage('Setup') {
+            agent {
+                label 'vmbuild || dockerbuild'
+            }
+            steps {
+                checkout scm
+
+                sh 'cp docker.env.dist docker.env'
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: '<%= config.name %>_github_token',
+                        usernameVariable: '',
+                        passwordVariable: 'GITHUB_TOKEN'
+                    ),
+                    usernamePassword(
+                        credentialsId: '<%= config.name %>_aws',
+                        usernameVariable: 'AWS_ACCESS_KEY_ID',
+                        passwordVariable: 'AWS_SECRET_ACCESS_KEY'
+                    )
+                ]) {
+                    sh 'sed -i"" "s/GITHUB_TOKEN=/GITHUB_TOKEN=${GITHUB_TOKEN}/" docker.env'
+                    sh 'sed -i"" "s/AWS_ACCESS_KEY_ID=/AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}/" docker.env'
+                    sh 'sed -i"" "s/AWS_SECRET_ACCESS_KEY=/AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}/" docker.env'
+                    sh 'sed -i"" "s/TIDEWAYS_API_KEY=/TIDEWAYS_API_KEY=tideways/" docker.env'
+                }
+                sh '''python -c "$(cat <<EOF
+import sys, yaml
+data = yaml.load(sys.stdin)
+for service in data['services']:
+  data['services'][service].pop('ports', None)
+print yaml.dump(data, default_flow_style = False)
+EOF
+)" < docker-compose.override.yml.dist > docker-compose.override.yml.no_ports.dist'''
+                sh 'mv docker-compose.override.yml.no_ports.dist docker-compose.override.yml.dist'
+                sh 'hem deps gems'
+                sh 'hem exec bash -c \'rake docker:setup\''
+                stash name: 'set_up', includes: 'docker.env,docker-compose.override.yml.dist,.bundle/**,.gems/**', useDefaultExcludes: false
+            }
+        }
+        stage('Provision dev environments') {
+            when { branch main_branch }
+
+            parallel {
+                stage('Vagrant') {
+                    agent {
+                        node {
+                            label 'vmbuild'
+                            customWorkspace GetWorkspace('@vm')
+                        }
+                    }
+                    steps {
+                        unstash 'set_up'
+                        sh 'eval "$(ssh-agent)" && ssh-add && hem vm rebuild'
+                        sh 'hem exec bash -c \'cd tools/vagrant && rake\''
+                    }
+                    post {
+                        always {
+                            sh 'hem vm destroy'
+                        }
+                    }
+                }
+                stage('Docker Compose (stable tags)') {
+                    agent {
+                        node {
+                            label 'dockerbuild'
+                            customWorkspace GetWorkspace('@stable')
+                        }
+                    }
+                    steps {
+                        unstash 'set_up'
+                        sh 'docker-compose pull'
+                        sh 'hem exec bash -c \'rake docker:up\''
+                    }
+                    post {
+                        always {
+                            sh 'hem exec bash -c \'rake docker:down\''
+                        }
+                    }
+                }
+                stage('Docker Compose (latest tags)') {
+                    agent {
+                        node {
+                            label 'dockerbuild'
+                            customWorkspace GetWorkspace('@latest')
+                        }
+                    }
+                    steps {
+                        unstash 'set_up'
+                        sh 'sed -i -E "s#(quay.io/continuouspipe/[^:]*:)stable(\\s*)#\\1latest\\2#g" Dockerfile docker-compose.yml'
+                        sh 'docker-compose pull'
+                        sh 'hem exec bash -c \'rake docker:up\''
+                    }
+                    post {
+                        always {
+                            sh 'hem exec bash -c \'rake docker:down\''
+                        }
+                    }
+                }
+            }
+        }
+    }
+    post {
+        failure {
+            slackSend channel: '#jenkins-builds, #<%= config.name %>', color: 'danger', message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} Failure after ${currentBuild.durationString} (<${env.RUN_DISPLAY_URL}|Open>)", tokenCredentialId: 'inviqa-slack-integration-token'
+        }
+    }
+}
