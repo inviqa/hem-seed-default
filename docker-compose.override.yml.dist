@@ -9,7 +9,9 @@ services:
       - '80:80'
       - '443:443'
     environment:
-      XDEBUG_REMOTE_ENABLED: 'false'
+      XDEBUG_REMOTE_ENABLED: 'true'
+      XDEBUG_REMOTE_PORT: '9000'
+      XDEBUG_REMOTE_AUTOSTART: 'true'
       TIDEWAYS_ENABLED: 'true'
       DEVELOPMENT_MODE: 'true'
       RUN_BUILD: # get from host env
@@ -23,7 +25,3 @@ services:
   mailcatcher:
     ports:
       - '1080:1080'
-
-  sshforward:
-    ports:
-      - '2222:22'

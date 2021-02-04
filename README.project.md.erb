@@ -109,13 +109,26 @@ instead of `RUN_BUILD: # get from host env`.
    - `TIDEWAYS_ENABLED` can be turned off to allow Xdebug to not pick up `tideways.php` as the entry point for the application.
 2. Stop and start your environment: `docker-compose stop; docker-compose up -d`
 
-#### XDebug Setup
-1. Set `XDEBUG_REMOTE_ENABLED` to `true` and `TIDEWAYS_ENABLED` to `false` in `docker-compose.override.yml`, after copying it from `docker-compose.override.yml.dist` if you haven't already
-2. Run `docker-compose stop web; docker-compose up -d web`
-3. Run `ssh -p 2222 forward@localhost -N -R 9000:localhost:9000` in another tab
-4. In PHPStorm, configure a web server with path mapping /app/ to the project directory.
-5. In PHPStorm, click the listen for connections button in the top right
-6. In your browser, use an extension to set the right cookies to trigger Xdebug.
+#### Xdebug setup
+
+XDebug is enabled within the container by default with the settings specified in `docker-compose.override.yml`.
+
+By default xdebug will attempt to connect to either `host.docker.internal` which is a route back to your host
+machine from the container, or `10.254.254.254`, on port `9000`.
+
+##### Ubuntu
+
+To facilitate this on Ubuntu, you can alias `127.0.0.1` to the `10.254.254.254` address like so:
+
+```
+sudo ifconfig lo:1 10.254.254.254 up
+```
+
+##### IDE
+
+You should now be able to use XDebug by setting PHPStorm to listen for connections.
+
+**NOTE:** The path mapping should be `/app/` to your project directory.
 
 ### Testing emails
 Mailcatcher is installed and will catch any email sent by Magento. It is accessible locally at [http://<%= config.hostname %>:1080/](http://<%= config.hostname %>:1080/).
