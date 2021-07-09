@@ -4,6 +4,16 @@
   "json_class": "Chef::Role",
   "description": "MySQL 5.5 database server",
   "default_attributes": {
+    "mysql-libs": {
+      "replace_package_targets": [
+        "mysql55-libs",
+        "Percona-Server-shared-51",
+        "mysqlclient16"
+      ]
+    },
+    "mysql": {
+      "replace_package_target": "mysql55-server"
+    },
     "services": {
       "mysql": ["enable", "start"]
     }
@@ -22,6 +32,7 @@
   },
   "run_list": [
     "yum-ius",
+    "role[db-mysql-upgrade]",
     "recipe[mysql::server]",
     "recipe[config-driven-helper::services]",
     "recipe[config-driven-helper::mysql-databases]",

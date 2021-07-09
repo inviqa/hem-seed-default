@@ -3,6 +3,18 @@
   "chef_type": "role",
   "json_class": "Chef::Role",
   "description": "MySQL 5.5 database client",
+  "default_attributes": {
+    "mysql-libs": {
+      "replace_package_targets": [
+        "mysql55-libs",
+        "Percona-Server-shared-51",
+        "mysqlclient16"
+      ]
+    },
+    "mysql-client": {
+      "replace_package_target": "mysql55"
+    }
+  },
   "override_attributes": {
     "mysql": {
       "client": {
@@ -15,6 +27,7 @@
   },
   "run_list": [
     "yum-ius",
+    "role[db-mysql-upgrade]",
     "recipe[mysql::client]"
   ]
 }

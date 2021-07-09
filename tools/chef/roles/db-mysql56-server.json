@@ -4,6 +4,22 @@
   "json_class": "Chef::Role",
   "description": "MySQL 5.6 database server",
   "default_attributes": {
+    "mysql-libs": {
+      "replace_packages": [
+        "mysql55-libs",
+        "mysqlclient16"
+      ],
+      "replace_package_targets": [
+        "Percona-Server-shared-51",
+        "Percona-Server-shared-56"
+      ]
+    },
+    "mysql": {
+      "replace_packages": [
+        "mysql55-server"
+      ],
+      "replace_package_target": "Percona-Server-server-56"
+    },
     "services": {
       "mysql": ["enable", "start"]
     }
@@ -25,6 +41,7 @@
   },
   "run_list": [
     "recipe[yum-percona]",
+    "role[db-mysql-upgrade]",
     "recipe[mysql::server]",
     "recipe[config-driven-helper::services]",
     "recipe[config-driven-helper::mysql-databases]",
